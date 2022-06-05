@@ -1,2 +1,2 @@
-# TID
+# TIL
 Today I Learned
