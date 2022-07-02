@@ -5,4 +5,4 @@
 - [github](https://github.com/Kim-Juwon/today-i-learned/tree/main/github)
 - [intellij](https://github.com/Kim-Juwon/today-i-learned/tree/main/intellij)
 - [java](https://github.com/Kim-Juwon/today-i-learned/tree/main/java)
-- [jpa](https://github.com/Kim-Juwon/jpa-study)
+- [jpa](https://github.com/Kim-Juwon/today-i-learned/tree/main/jpa)
