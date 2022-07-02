@@ -39,7 +39,7 @@ transaction.commit();
 
 참고로 persist()와 detach() 사이에서 flush()를 호출할 경우에는 에러가 발생하지 않는다.
 
-```
+``` java
 entityManager.persist(member);
 entityManager.flush();
 entityManager.detach(member);
