@@ -1,6 +1,7 @@
 # properties 파일 주요 속성 
 스프링부트에서 JPA(Hibernate) 관련 설정파일 작성시 주요 속성의 종류와 뜻에 대해 알아본다.
 
+`properties.yml`
 ```yml:properties.yml
 spring:
   datasource:
