@@ -14,13 +14,13 @@ spring:
       ddl-auto: create 
     properties:
       hibernate:
-#      show_sql: true 
+#       show_sql: true 
         format_sql: true 
 
 logging:
   level:
-    org.hibernate.SQL: debug # hibernate를 통해 CRUD를 실행하면 해당 CRUD의 sql을 로깅 (logger)
-    org.hibernate.type: trace # sql에 바인딩되는 파라미터 값을 보여줌
+    org.hibernate.SQL: debug 
+    org.hibernate.type: trace 
 ```
 
 ### spring.datasource
