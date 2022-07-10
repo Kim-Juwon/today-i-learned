@@ -9,7 +9,7 @@ JUnit 5는 JUnit 4와 구조적으로 어떻게 다른지, 특징에 대해 살�
 	- Platform 위에 Jupiter와 Vintage를 올릴 수 있는 구조
 
 ### 구조
-<img src="./JUnit 5 구조.png" width="60%" height="60%">
+<img src="./JUnit 5 구조.png" width="60%" height="60%">
 
 - JUnit Platform
 	- JUnit 테스트를 실행해주는 launcher
