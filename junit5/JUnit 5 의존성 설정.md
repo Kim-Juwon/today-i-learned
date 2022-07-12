@@ -8,7 +8,11 @@ JUnit 5 라이브러리를 사용하기 위한 의존성 설정에 대해 알아
 	
 <img src="./라이브러리 의존성.png" width="60%">
 	
-- 스프링부트 2.1 버전 이전은 spring-boot-starter에서 JUnit4.x 버전을 제공한다.
+### Spring Boot 2.1 이전 버전
 
+- 스프링부트 2.1 이전 버전은 spring-boot-starter에서 JUnit4.x 버전을 제공한다.
 
-	
+### 그 외
+
+- 자동 의존성이 설정되어있지 않은 프로젝트에서는 직접 설정해주면 된다.
+	- [https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine) 
