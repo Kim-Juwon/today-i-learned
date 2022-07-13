@@ -6,4 +6,5 @@
 - [intellij](https://github.com/Kim-Juwon/today-i-learned/tree/main/intellij)
 - [java](https://github.com/Kim-Juwon/today-i-learned/tree/main/java)
 - [jpa](https://github.com/Kim-Juwon/today-i-learned/tree/main/jpa)
+- [junit5](https://github.com/Kim-Juwon/today-i-learned/tree/main/junit5)
 - [web](https://github.com/Kim-Juwon/today-i-learned/tree/main/web)
