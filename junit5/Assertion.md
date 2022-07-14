@@ -48,7 +48,7 @@ void test() {
     assertEquals("김주원", user.getName(), "user의 name이 기대한 값과 다릅니다.");
 }
 ```
-<img src="./message.png" width="80%">
+<img src="./images/message.png" width="80%">
 
 - 테스트에 실패했을 시 나타나는 메시지는 그냥 문자열을 넣어주는 것보다 supplier functional interface의 익명 객체를 생성(람다식)하는 것이 성능에 더 좋다.
 	- 그냥 문자열만 넣으면: 테스트 실패 여부와 상관 없이 문자열 생성 연산을 한다.
