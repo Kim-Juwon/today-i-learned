@@ -32,13 +32,27 @@ System.out.println(store.get("name"));
 - 선언적인 등록: @ExtendWith
 
 ```java
+import com.kimjuwon.junit5study.Extension.TimeExcessCheckExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 @ExtendWith(TimeExcessCheckExtension.class)
-public class MyTest {
+class MyTest {
     ...
 }
 ```
 
 - 프로그래밍 등록: @RegisterExtension
+```java
+import com.kimjuwon.junit5study.Extension.TimeExcessCheckExtension;
+import org.junit.jupiter.api.extension.RegisterExtension;
+
+class MyTest {
+    @RegisterExtension
+    static TimeExcessCheckExtension timeExcessCheckExtension = new TimeExcessCheckExtension();
+
+    ...
+}
+```
 
 
 - 자동 등록 자바 [ServiceLoader](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ServiceLoader.html) 이용
