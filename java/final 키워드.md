@@ -24,7 +24,7 @@ Java에서 final 키워드의 의미를 알아본다.
 ### 메소드에 붙는 final
 - 해당 메소드를 재정의할 수 없게 된다.
 
-```
+```java
 public class Human {
     final void study() { // 자식 클래스에서 study()를 재정의 할 수 없다.
         System.out.println("공부한다.");
