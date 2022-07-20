@@ -26,12 +26,11 @@ Mock 객체를 stubbing 하는 방법에 대해 알아본다.
 ### 예시
 #### 상황
 - UserService 라는 interface가 있다.
-	- findUserById(Long userId) 라는 메소드가 있다.
-		- User 객체를 리턴한다.
 
 ```java
 public interface UserService {
     User findUserById(Long userId);
+    void displayUserById(Long userId);
 }
 ```
 
@@ -52,10 +51,10 @@ class MyTest {
 }
 ```
 
-- 현재 UserService Mock 객체는 findUserById() 메소드를 호출해도 아무일도 일어나지 않는다.
+- 현재 UserService Mock 객체는 findUserById()나 displayUserById() 메소드를 호출해도 아무일도 일어나지 않는다.
 	
 	 
-#### 특정 파라미터를 받은 경우 특정한 값을 리턴
+#### 특정 파라미터를 받은 경우 특정한 값을 리턴하도록 만듬
 - org.mockito.Mockito의 when().thenReturn() 메소드 사용
 
 ```java
@@ -84,6 +83,143 @@ class MyTest {
 }
 ```
 
-#### 불특정 다수 파라미터를 받은 경우 특정한 값을 리턴
+#### 불특정 다수의 파라미터를 받은 경우 특정한 값을 리턴하도록 만듬
+- 불특정 다수에 대한 메소드는 org.mockito.ArgumentMatchers 클래스에 정의되어 있다.
+	- 다양한 메소드들이 존재한다.
+
+- 더 자세한 내용은 [공식문서](https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#3) 참조
+
+<img src="./images/ArgumentMatchers.png" width="60%">
+
+
 - 호출하는 Mock 객체의 인자에 any() 메소드 사용
-- 
+	- any() 메소드는 파라미터 타입에 넣을 수 있는 어떠한 값이든 넣을 수 있다.
+
+```java
+import com.kimjuwon.junit5study.service.UserService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class MyTest {
+    @Test
+    void test(@Mock UserService userService) {
+        User user = new User();
+        user.setId(1l);
+        user.setName("김주원");
+
+        // 등록한 Mock 객체의 findUserById()에 Long 타입의 어떤 값을 넣든, user 객체 리턴
+        when(userService.findUserById(any())).thenReturn(user);
+
+        User newUser1 = userService.findUserById(1l);
+        User newUser2 = userService.findUserById();
+        User newUser3 = userService.findUserById(3l);
+
+        System.out.println(newUser1.toString()); // User(id=1, name=김주원)
+        System.out.println(newUser2.toString()); // User(id=1, name=김주원)
+        System.out.println(newUser3.toString()); // User(id=1, name=김주원)
+    }
+}
+```
+
+#### 특정 파라미터를 받은 경우 예외를 throw하게 만듬
+- org.mockito.Mockito의 when().thenThrow() 메소드 사용
+
+```java
+import com.kimjuwon.junit5study.service.UserService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class MyTest {
+    @Test
+    void test(@Mock UserService userService) {
+        // 등록한 Mock 객체의 findUserById()에 1을 넣고 호출할경우, IllegalArgumentException throw
+        when(userService.findUserById(1l)).thenThrow(new IllegalArgumentException());
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            userService.findUserById(1l);
+        }); // 테스트 통과
+    }
+}
+```
+
+- when() 메소드의 인자에 void 메소드를 넣을수는 없다. 
+	- void 메소드는 org.mockito.Mockito의 doThrow() 메소드를 사용한다.
+
+```java
+import com.kimjuwon.junit5study.service.UserService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class MyTest {
+    @Test
+    void test(@Mock UserService userService) {
+        // 등록한 Mock 객체의 displayUserById()에 1을 넣고 호출할경우, IllegalArgumentException throw
+        doThrow(new IllegalArgumentException()).when(userService).displayUserById(1l);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            userService.displayUserById(1l);
+        }); // 테스트 통과
+    }
+}
+```
+
+#### 동일한 파라미터로 메소드가 여러번 호출될때마다 각기 다른 행동을 하게 만듬
+- when() 메소드 다음으로 then~~() 메소드를 연달아 호출
+	- 호출한 순서대로 순서 부여
+
+```java
+import com.kimjuwon.junit5study.service.UserService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class MyTest {
+    @Test
+    void test(@Mock UserService userService) {
+        User user = new User();
+        user.setId(1l);
+        user.setName("김주원");
+
+        // 등록한 Mock 객체의 findUserById()에 1을 넣고 호출할경우
+        when(userService.findUserById(1l))
+                .thenReturn(user) // 1번째 호출: user 객체 리턴
+                .thenThrow(new IllegalArgumentException()) // 2번째 호출: IllegalArgumentException throw
+                .thenReturn(null); // 3번째 호출: null 리턴
+
+        User newUser1 = userService.findUserById(1l);
+        assertEquals(user.getName(), newUser1.getName()); // 통과
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            userService.findUserById(1l);
+        }); // 통과
+
+        User newUser2 = userService.findUserById(1l);
+        assertEquals(newUser2, null); // 통과
+    }
+}
+```
+
+### 공식 문서
+위에서 설명한 모든 내용은 [공식문서](https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#3)에 자세히 설명되어 있다.
